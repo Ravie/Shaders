@@ -12,11 +12,10 @@ namespace Shaders
         int BasicFragmentShader;            // Address fs
 
         int vaoHandle;                      // Vertex Array Object
-        int[] vboHandlers = new int[2];     // Vertex Buffer Objects
+        int vboVertexPosition;      // Vertex Buffer Objects
         Vector3 camera_position;    // Позиция камеры
         int uniform_pos;
         int attribute_vpos;         // Адрес параметра позиции
-        int attribute_vcol;         // Адрес параметра цвета
 
         float latitude = 0.0f;      // Углы
         float longitude = 0.0f;     //  наклона
@@ -62,9 +61,8 @@ namespace Shaders
 
             uniform_pos = GL.GetUniformLocation(BasicProgramID, "cam_pos");
             attribute_vpos = GL.GetAttribLocation(BasicProgramID, "VertexPosition");
-            attribute_vcol = GL.GetAttribLocation(BasicProgramID, "VertexColor");
 
-            GL.GenBuffers(2, vboHandlers);
+            GL.GenBuffers(1, out vboVertexPosition);
 
             vaoHandle = GL.GenVertexArray();
             GL.BindVertexArray(vaoHandle);
@@ -91,12 +89,10 @@ namespace Shaders
                 (float)Math.Cos(longitude / 180 * Math.PI));
 
             GL.EnableVertexAttribArray(attribute_vpos);   //Активация атрибутов вершин
-            GL.EnableVertexAttribArray(attribute_vcol);   //Или вкл. режима отрисовки
 
             GL.DrawArrays(PrimitiveType.Quads, 0, 4);  //Отображает нашу фигуру
 
             GL.DisableVertexAttribArray(attribute_vpos);  //Выключаем режим отрисовки
-            GL.DisableVertexAttribArray(attribute_vcol);
 
             SwapBuffers();   //Быстро скопировать содержимое заднего буфера окна в передний буфер
         }
@@ -117,12 +113,9 @@ namespace Shaders
             if (longitude > 89.0f)
                 longitude = 89.0f;
             // Заполнение вертекс буферов данными
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vboHandlers[0]);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vboVertexPosition);
             GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * positionData.Length), positionData, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(attribute_vpos, 3, VertexAttribPointerType.Float, false, 0, 0);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vboHandlers[1]);
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * colorData.Length), colorData, BufferUsageHint.StaticDraw);
-            GL.VertexAttribPointer(attribute_vcol, 3, VertexAttribPointerType.Float, false, 0, 0);
 
             GL.UseProgram(BasicProgramID);
 
