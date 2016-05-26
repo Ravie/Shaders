@@ -18,14 +18,14 @@ namespace Shaders
 
         void loadShader(String filename, ShaderType type, int program, out int address)
         {
-            //string glVersion = GL.GetString(StringName.Version);
-            //string glslVersion = GL.GetString(StringName.ShadingLanguageVersion);
+            string glVersion = GL.GetString(StringName.Version);
+            string glslVersion = GL.GetString(StringName.ShadingLanguageVersion);
             address = GL.CreateShader(type);
-            /*if (address == 0)
+            if (address == 0)
             {
                 string message = String.Format("Can't create shader");
                 throw new ArgumentOutOfRangeException(message);
-            }*/
+            }
             using (StreamReader sr = new StreamReader(filename))
             {
                 GL.ShaderSource(address, sr.ReadToEnd());
@@ -39,8 +39,8 @@ namespace Shaders
         {
             // создание объекта программы 
             BasicProgramID = GL.CreateProgram();
-            loadShader("..\\..\\basic.vs", ShaderType.VertexShader, BasicProgramID, out BasicVertexShader);
-            loadShader("..\\..\\basic.fs", ShaderType.FragmentShader, BasicProgramID, out BasicFragmentShader);
+            loadShader("..\\..\\vertex_shader.c", ShaderType.VertexShader, BasicProgramID, out BasicVertexShader);
+            loadShader("..\\..\\fragment_shader.c", ShaderType.FragmentShader, BasicProgramID, out BasicFragmentShader);
             //Компоновка программы
             GL.LinkProgram(BasicProgramID);
 
