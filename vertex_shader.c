@@ -1,14 +1,15 @@
 #version 450
+uniform vec3 cam_pos;
 /* Входные атрибуты для вершинного шейдера. Ключевое слово in */
-layout (location = 0) in vec3 VertexPosition;
-layout (location = 1) in vec3 VertexColor;
+in vec3 VertexPosition, VertexColor;
 
 /*Выходная переменная. Ключевое слово out*/
-out vec3 Color;
+out vec3 dir, org;
 
 void main()
 {
-	Color = VertexColor;
 	/*Встроенная выходная переменная*/
 	gl_Position = vec4(VertexPosition, 1.0);
+	dir = normalize(vec3(VertexPosition.x * 1.66667, VertexPosition.y, -2.0));
+	org = cam_pos;
 }
