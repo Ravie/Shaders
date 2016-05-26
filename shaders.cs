@@ -10,11 +10,10 @@ namespace Shaders
         int BasicProgramID;
         int BasicVertexShader;              // Address vs
         int BasicFragmentShader;            // Address fs
-
-        int vaoHandle;                      // Vertex Array Object
+        
         int vboVertexPosition;      // Vertex Buffer Objects
         Vector3 camera_position;    // Позиция камеры
-        int uniform_pos;
+        int uniform_camera_position;// Адрес параметра позиции камеры
         int attribute_vpos;         // Адрес параметра позиции
 
         float latitude = 0.0f;      // Углы
@@ -59,13 +58,10 @@ namespace Shaders
 
             Console.WriteLine(GL.GetProgramInfoLog(BasicProgramID));
 
-            uniform_pos = GL.GetUniformLocation(BasicProgramID, "cam_pos");
+            uniform_camera_position = GL.GetUniformLocation(BasicProgramID, "cam_pos");
             attribute_vpos = GL.GetAttribLocation(BasicProgramID, "VertexPosition");
 
             GL.GenBuffers(1, out vboVertexPosition);
-
-            vaoHandle = GL.GenVertexArray();
-            GL.BindVertexArray(vaoHandle);
         }
 
         protected override void OnLoad(EventArgs e)   //Вызывает событие Load
@@ -119,7 +115,7 @@ namespace Shaders
 
             GL.UseProgram(BasicProgramID);
 
-            GL.Uniform3(uniform_pos, camera_position);
+            GL.Uniform3(uniform_camera_position, camera_position);
         }
     }
 }
