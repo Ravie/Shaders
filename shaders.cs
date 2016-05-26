@@ -8,11 +8,11 @@ namespace Shaders
     class shader : GameWindow
     {
         int BasicProgramID;
-        int BasicVertexShader;
-        int BasicFragmentShader;
+        int BasicVertexShader;              // Address vs
+        int BasicFragmentShader;            // Address fs
 
-        int vaoHandle;
-        int[] vboHandlers = new int[2];
+        int vaoHandle;                      // Vertex Array Object
+        int[] vboHandlers = new int[2];     // Vertex Buffer Objects
         float[] positionData = { -0.8f, -0.8f, 0.0f, 0.8f, -0.8f, 0.0f, 0.0f, 0.8f, 0.0f };
         float[] colorData = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
 
@@ -63,9 +63,10 @@ namespace Shaders
             InitShaders();
         }
 
-        protected override void OnRenderFrame(FrameEventArgs e)   //Отвечает за перересовку
+        protected override void OnRenderFrame(FrameEventArgs e)   //Отвечает за перерисовку
         {
             base.OnRenderFrame(e);
+
             GL.Viewport(0, 0, Width, Height);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);  //Очищать буфер
             GL.Enable(EnableCap.DepthTest);    //Дальние элементы перекрываются ближними
